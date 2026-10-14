@@ -1,0 +1,24 @@
+{
+  "name": "sophia-tmlanguage",
+  "version": "1.0.0",
+  "description": "TextMate grammar for the Sophia smart contract language (aeternity blockchain), full v6.1.0 syntax coverage",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/npgum/sophia-tmlanguage"
+  },
+  "keywords": [
+    "sophia",
+    "aeternity",
+    "textmate",
+    "grammar",
+    "smart-contracts"
+  ],
+  "files": [
+    "grammars/"
+  ],
+  "dependencies": {
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  }
+}

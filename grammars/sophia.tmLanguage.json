@@ -1,0 +1,280 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Sophia",
+  "scopeName": "source.sophia",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#char-literals" },
+    { "include": "#type-variables" },
+    { "include": "#chain-identifiers" },
+    { "include": "#bytes-literals" },
+    { "include": "#numbers" },
+    { "include": "#declarations" },
+    { "include": "#keywords" },
+    { "include": "#qualified-identifiers" },
+    { "include": "#constructors" },
+    { "include": "#operators" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.sophia",
+          "begin": "/\\*",
+          "beginCaptures": { "0": { "name": "punctuation.definition.comment.sophia" } },
+          "end": "\\*/",
+          "endCaptures": { "0": { "name": "punctuation.definition.comment.sophia" } },
+          "patterns": [
+            { "include": "#comments" }
+          ]
+        },
+        {
+          "name": "comment.line.double-slash.sophia",
+          "begin": "//",
+          "beginCaptures": { "0": { "name": "punctuation.definition.comment.sophia" } },
+          "end": "$"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.sophia",
+      "begin": "\"",
+      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.sophia" } },
+      "end": "\"",
+      "endCaptures": { "0": { "name": "punctuation.definition.string.end.sophia" } },
+      "patterns": [
+        {
+          "name": "constant.character.escape.sophia",
+          "match": "\\\\(?:b|t|n|v|f|r|e|x[0-9A-Fa-f]+)"
+        },
+        {
+          "name": "invalid.illegal.unknown-escape.sophia",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "char-literals": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.sophia",
+          "match": "'(?:\\\\(?:b|t|n|v|f|r|e|x[0-9A-Fa-f]+)|[^'\\\\])'",
+          "captures": {
+            "0": { "name": "string.quoted.single.sophia" }
+          }
+        }
+      ]
+    },
+    "type-variables": {
+      "match": "'[a-z_][A-Za-z0-9_']*",
+      "name": "variable.other.type.sophia"
+    },
+    "chain-identifiers": {
+      "patterns": [
+        {
+          "name": "constant.other.address.account.sophia",
+          "match": "\\bak_[1-9A-HJ-NP-Za-km-z]+"
+        },
+        {
+          "name": "constant.other.address.contract.sophia",
+          "match": "\\bct_[1-9A-HJ-NP-Za-km-z]+"
+        },
+        {
+          "name": "constant.other.address.oracle.sophia",
+          "match": "\\bok_[1-9A-HJ-NP-Za-km-z]+"
+        },
+        {
+          "name": "constant.other.oracle-query-id.sophia",
+          "match": "\\boq_[1-9A-HJ-NP-Za-km-z]+"
+        }
+      ]
+    },
+    "bytes-literals": {
+      "name": "constant.numeric.bytes.sophia",
+      "match": "#[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+)*"
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.sophia",
+          "match": "\\b0x[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+)*\\b"
+        },
+        {
+          "name": "constant.numeric.integer.sophia",
+          "match": "\\b[0-9]+(?:_[0-9]+)*\\b"
+        }
+      ]
+    },
+    "declarations": {
+      "patterns": [
+        {
+          "match": "^\\s*(payable\\s+)?(contract)\\s+([A-Z][A-Za-z0-9_']*)",
+          "captures": {
+            "1": { "name": "storage.modifier.payable.sophia" },
+            "2": { "name": "keyword.declaration.contract.sophia" },
+            "3": { "name": "entity.name.type.contract.sophia" }
+          }
+        },
+        {
+          "match": "^\\s*(namespace)\\s+([A-Z][A-Za-z0-9_']*)",
+          "captures": {
+            "1": { "name": "keyword.declaration.namespace.sophia" },
+            "2": { "name": "entity.name.type.namespace.sophia" }
+          }
+        },
+        {
+          "match": "^\\s*(@compiler)\\b",
+          "captures": {
+            "1": { "name": "keyword.other.pragma.sophia" }
+          }
+        },
+        {
+          "match": "^\\s*(include)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.include.sophia" }
+          }
+        },
+        {
+          "match": "^\\s*(payable\\s+|stateful\\s+)*(type|record|datatype)\\s+([a-z_][A-Za-z0-9_']*)",
+          "captures": {
+            "1": { "name": "storage.modifier.sophia" },
+            "2": { "name": "keyword.declaration.type.sophia" },
+            "3": { "name": "entity.name.type.sophia" }
+          }
+        },
+        {
+          "match": "^\\s*((?:payable\\s+|stateful\\s+|private\\s+)*)(entrypoint|function)\\s+([a-z_][A-Za-z0-9_']*)",
+          "captures": {
+            "1": { "name": "storage.modifier.sophia" },
+            "2": { "name": "keyword.declaration.function.sophia" },
+            "3": { "name": "entity.name.function.sophia" }
+          }
+        },
+        {
+          "match": "^\\s*(let)\\s+([a-z_][A-Za-z0-9_']*)",
+          "captures": {
+            "1": { "name": "keyword.declaration.let.sophia" },
+            "2": { "name": "variable.other.binding.sophia" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.sophia",
+          "match": "\\b(if|elif|else|switch)\\b"
+        },
+        {
+          "name": "keyword.other.sophia",
+          "match": "\\b(contract|namespace|include|import|mod)\\b"
+        },
+        {
+          "name": "keyword.declaration.sophia",
+          "match": "\\b(type|record|datatype|entrypoint|function|let)\\b"
+        },
+        {
+          "name": "storage.modifier.sophia",
+          "match": "\\b(payable|stateful|private)\\b"
+        },
+        {
+          "name": "constant.language.sophia",
+          "match": "\\b(true|false|unit)\\b"
+        },
+        {
+          "name": "keyword.other.pragma.sophia",
+          "match": "@compiler\\b"
+        }
+      ]
+    },
+    "constructors": {
+      "match": "\\b[A-Z][A-Za-z0-9_']*\\b",
+      "name": "entity.name.type.constructor.sophia"
+    },
+    "qualified-identifiers": {
+      "patterns": [
+        {
+          "match": "\\b[A-Z][A-Za-z0-9_']*(?:\\.[A-Z][A-Za-z0-9_']*)*\\.[a-z_][A-Za-z0-9_']*\\b",
+          "name": "variable.other.qualified.sophia"
+        },
+        {
+          "match": "\\b[A-Z][A-Za-z0-9_']*(?:\\.[A-Z][A-Za-z0-9_']*)+\\b",
+          "name": "entity.name.type.qualified.sophia"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arrow.sophia",
+          "match": "=>|<-"
+        },
+        {
+          "name": "keyword.operator.function-type.sophia",
+          "match": "(?<=\\))\\s*=>"
+        },
+        {
+          "name": "keyword.operator.assignment.sophia",
+          "match": "=(?!=)"
+        },
+        {
+          "name": "keyword.operator.comparison.sophia",
+          "match": "==|!=|=<|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.sophia",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.list.sophia",
+          "match": "::|\\+\\+"
+        },
+        {
+          "name": "keyword.operator.arithmetic.sophia",
+          "match": "\\^|\\*|/|mod|\\+|-"
+        },
+        {
+          "name": "keyword.operator.range.sophia",
+          "match": "\\.\\."
+        },
+        {
+          "name": "keyword.operator.tuple.sophia",
+          "match": "\\*(?=\\s)"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.comma.sophia",
+          "match": ","
+        },
+        {
+          "name": "punctuation.separator.pipe.sophia",
+          "match": "\\|"
+        },
+        {
+          "name": "punctuation.definition.parameters.sophia",
+          "match": "[()]"
+        },
+        {
+          "name": "punctuation.definition.brackets.sophia",
+          "match": "[\\[\\]]"
+        },
+        {
+          "name": "punctuation.definition.braces.sophia",
+          "match": "[{}]"
+        },
+        {
+          "name": "punctuation.accessor.sophia",
+          "match": "\\."
+        },
+        {
+          "name": "punctuation.separator.colon.sophia",
+          "match": ":"
+        }
+      ]
+    }
+  }
+}
